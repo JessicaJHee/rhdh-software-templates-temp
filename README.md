@@ -1,1 +1,2 @@
-# rhdh-software-templates-temp
+# Software Templates for Testing
+The templates included in this repository applies each scaffolder actions listed [here](https://showcase.janus-idp.io/create/actions). These templates are to be used to facilitate the testing of scaffolder actions.

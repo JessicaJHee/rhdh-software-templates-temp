@@ -1,0 +1,4 @@
+# Create a Quay Repository
+This template uses the `quay:create-repository` action which creates a Quay repository based on the provided repository information ([usage](https://github.com/janus-idp/backstage-plugins/tree/main/plugins/quay-actions#usage)). It requires the [Quay actions for Backstage](https://github.com/janus-idp/backstage-plugins/tree/main/plugins/quay-actions) plugin and a Quay OAuth access token.
+* [Install](https://github.com/janus-idp/backstage-plugins/tree/main/plugins/quay-actions#installation) the required plugin.
+* [Generate](https://github.com/JessicaJHee/rhdh-software-templates-temp) an access token.
