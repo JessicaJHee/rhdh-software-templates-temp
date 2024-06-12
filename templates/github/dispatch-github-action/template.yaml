@@ -1,0 +1,59 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: dispatch-github-action-workflow
+  title: Dispatch a GitHub Action Workflow
+  description: Dispatch a GitHub Action Workflow
+
+spec:
+  type: service
+  parameters:
+    - title: Workflow information
+      required: ['repoUrl', 'workflowId', 'branchOrTagName']
+      properties:
+        repoUrl:
+          title: Repository URL
+          type: string
+          description: URL of the repository location
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        workflowId:
+          title: Workflow ID
+          type: string
+          description: The GitHub Action Workflow filename
+        branchOrTagName:
+          title: Branch or Tag name
+          type: string
+          description: The git branch or tag name used to dispatch the workflow
+        workflowInputs:
+          title: Workflow Inputs
+          type: object
+          description: Inputs keys and values to send to GitHub Action configured on the workflow file. The maximum number of properties is 10.
+          properties:
+            input1:
+              title: Input 1
+              type: string
+              description: Value for input1
+            input2:
+              title: Input 2
+              type: string
+              description: Value for input2
+        token:
+          title: Authentication Token
+          type: string
+          description: The GITHUB_TOKEN to use for authorization to GitHub
+
+  steps:
+    - id: dispatch-github-action-workflow
+      name: Dispatch GitHub Action Workflow
+      action: github:actions:dispatch
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        workflowId: ${{ parameters.workflowId }}
+        branchOrTagName: ${{ parameters.branchOrTagName }}
+        workflowInputs: 
+          input1: ${{ parameters.workflowInputs.input1 }}
+          input2: ${{ parameters.workflowInputs.input2 }}
+        token: ${{ parameters.token }}
