@@ -4,6 +4,8 @@ metadata:
   name: dispatch-github-action-workflow
   title: Dispatch a GitHub Action Workflow
   description: Dispatch a GitHub Action Workflow
+  tags:
+  - github
 
 spec:
   type: service

@@ -1,0 +1,51 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: create-autolink-ref
+  title: Create an Autolink Reference
+  description: Create an Autolink Reference for a Repository
+  tags:
+  - github
+
+spec:
+  type: service
+  parameters:
+    - title: Autolink information
+      required: ['repoUrl', 'keyPrefix', 'urlTemplate']
+      properties:
+        repoUrl:
+          title: Repository URL
+          type: string
+          description: URL of the repository location
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        keyPrefix:
+          title: Key Prefix
+          type: string
+          description: This prefix appended by certain characters will generate a link any time it is found in an issue, pull request, or commit.
+        urlTemplate:
+          title: URL Template
+          type: string
+          description: The URL must contain <num> for the reference number. <num> matches different characters depending on the value of isAlphanumeric.
+        isAlphanumeric:
+          title: Is Alphanumeric
+          type: boolean
+          default: true
+          description: Whether this autolink reference matches alphanumeric characters. If true, the <num> parameter of the url_template matches alphanumeric characters A-Z (case insensitive), 0-9, and -. If false, this autolink reference only matches numeric characters. Defaults to true.
+        token:
+          title: Authentication Token
+          type: string
+          description: The GITHUB_TOKEN to use for authorization to GitHub
+
+  steps:
+    - id: create-autolink
+      name: Create an Autolink
+      action: github:autolinks:create
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        keyPrefix: ${{ parameters.keyPrefix }}
+        urlTemplate: ${{ parameters.urlTemplate }}
+        isAlphanumeric: ${{ parameters.isAlphanumeric }}
+        token: ${{ parameters.token }}
