@@ -1,0 +1,52 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: parse-file-template-example
+  title: Parse contents of a file
+  description: Example template to parse from a file on the given path in a GitHub Repository with the given content in the workspace.
+spec:
+  owner: roadie
+  type: service
+
+  parameters:
+    - title: Repository Information
+      properties:
+        repository:
+          title: Repository name
+          type: string
+          description: The name of the repository
+        org:
+          title: Repository Organization
+          type: string
+          description: The Github org that the repository is in
+    - title: Parse From File
+      properties:
+        path:
+          title: Path
+          type: string
+          description: The path to the file
+        parser:
+          title: Parser
+          type: string
+          enum:
+            - yaml
+            - json
+            - multiyaml
+          description: The content to parse from the file
+  steps:
+    - id: fetch-repo
+      name: Fetch repo
+      action: fetch:plain
+      input:
+        url: https://github.com/${{ parameters.org }}/${{ parameters.repository }}
+    - id: parsefile
+      name: Parse File
+      action: roadiehq:utils:fs:parse
+      input:
+        path: ${{ parameters.path }}
+        parser: ${{ parameters.parser }}
+    - id: log-message
+      name: Log parsed data
+      action: debug:log
+      input:
+        message: 'File Contents: ${{ steps["parsefile"].output.content }}'
