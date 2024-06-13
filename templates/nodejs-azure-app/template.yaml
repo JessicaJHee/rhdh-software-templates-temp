@@ -99,6 +99,3 @@ spec:
     links:
       - title: Open the Source Code Repository
         url: ${{ steps.publish.output.remoteUrl }}
-      - title: Open the Catalog Info Component
-        icon: catalog
-        entityRef: ${{ steps.register.output.entityRef }}

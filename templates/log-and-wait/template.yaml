@@ -1,0 +1,42 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: message-logger
+  title: Log a message after a specified duration of time.
+  description: Writes a message into the log after waiting for a specified duration of time.
+  tags:
+    - recommended
+spec:
+  owner: janus-authors
+  system: janus-idp
+  type: service
+  parameters:
+    - title: Log Message Entry
+      required:
+        - logMsg
+        - waitTime
+      properties:
+        logMsg:
+          title: Enter Log Message
+          type: string
+          description: Provide a message to log
+        waitTime:
+          title: Enter Wait Time 
+          type: number 
+          description: Provide wait time duration in seconds
+  steps:
+    - id: log
+      name: Indicate that message will be logged after wait time
+      action: debug:log
+      input:
+        message: "Hi, Please wait, message will be logged after the wait time."
+    - id: wait 
+      name: Wait before logging message
+      action: debug:wait
+      input:
+        seconds: ${{ parameters.waitTime }}
+    - id: log-final
+      name: Write Message to Log
+      action: debug:log
+      input:
+        message: ${{ parameters.logMsg }}
