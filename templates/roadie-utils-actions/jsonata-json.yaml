@@ -1,0 +1,47 @@
+---
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: Jsonata
+  title: Jsonata
+  description: Example template to perform a jsonata expression on input data
+spec:
+  owner: roadie
+  type: service
+
+  parameters:
+    - title: Repository Data
+      properties:
+        repository:
+          title: Repository name
+          type: string
+          description: The name of the repository
+        org:
+          title: Repository Organization
+          type: string
+          description: The Github org that the repository is in
+    - title: JSON file details
+      properties:
+        path:
+          title: Path
+          type: string
+          description: Workspace path to the json file
+  steps:
+    - id: fetch-repo
+      name: Fetch repo
+      action: fetch:plain
+      input:
+        url: https://github.com/${{ parameters.org }}/${{ parameters.repository }}
+        
+    - id: jsonata
+      name: Jsonata
+      action: roadiehq:utils:jsonata:json:transform
+      input:
+        path: ${{ parameters.path}}
+        expression: '$ ~> | $ | { "items": [items, "item2"] }|'
+    
+    - id: Log
+      name: log output
+      action: debug:log
+      input:
+        message: ${{ steps.jsonata.output.result }}

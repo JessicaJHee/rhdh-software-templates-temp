@@ -1,0 +1,50 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: rename-file-template-example
+  title: Rename a file
+  description: Rename a file on the given path in the workspace
+spec:
+  owner: janus-authors
+  system: janus-idp
+  type: service
+
+  parameters:
+    - title: Repository Data
+      properties:
+        repository:
+          title: Repository name
+          type: string
+          description: The name of the repository
+        org:
+          title: Repository Organization
+          type: string
+          description: The Github org that the repository is in
+    - title: File Details
+      properties:
+        path:
+          title: Path
+          type: string
+          description: The path to the file you want to rename
+        newName:
+          title: New File Name
+          type: string
+          description: Provide your file's new name
+
+  steps:
+    - id: fetch-repo
+      name: Fetch repo
+      action: fetch:template
+      input:
+        url: https://github.com/${{ parameters.org }}/${{ parameters.repository }}
+    - id: rename-file
+      name: Rename File
+      action: fs:rename
+      input:
+        files:
+          - from: ${{ parameters.path }}
+            to: ${{ parameters.newName }}
+    - id: list-all-files
+      name: List all files
+      input:
+        listWorkspace: true
