@@ -1,0 +1,50 @@
+---
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: zip-dummy
+  title: My custom zip action
+  description: scaffolder action to zip the current context
+spec:
+  owner: roadie
+  type: service
+
+  parameters:
+    - title: Repository Data
+      properties:
+        repository:
+          title: Repository name
+          type: string
+          description: The name of the repository
+        org:
+          title: Repository Organization
+          type: string
+          description: The Github org that the repository is in
+    - title: Zip
+      properties:
+        path:
+          title: Path
+          type: string
+          description: Workspace path to zip
+        outputPath:
+          title: Path
+          type: string
+          description: The path of the zip file
+
+  steps:
+    - id: fetch-repo
+      name: Fetch repo
+      action: fetch:plain
+      input:
+        url: https://github.com/${{ parameters.org }}/${{ parameters.repository }}
+    - id: zip
+      name: Zip
+      action: roadiehq:utils:zip
+      input:
+        path: ${{ parameters.path }}
+        outputPath: ${{ parameters.outputPath }}
+    - id: log-files
+      name: List all files
+      action: debug:log
+      input:
+        listWorkspace: true
