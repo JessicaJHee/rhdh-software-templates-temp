@@ -1,0 +1,53 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: write-catalog-info
+  title: Writes the catalog-info file for a given Entity
+  description: Writes the catalog-info file for a given Entity
+  tags:
+    - import
+    - catalog
+    - register
+spec:
+  owner: janus-authors
+  system: janus-idp
+  type: service
+
+  parameters: []
+
+  steps:
+
+  - id: create-catalog-info-file
+    name: Create catalog file
+    action: catalog:write
+    input:
+      entity:
+        apiVersion: backstage.io/v1alpha1
+        kind: Component
+        metadata:
+          name: test
+          annotations: {}
+        spec:
+          type: service
+          lifecycle: production
+          owner: default/owner
+  
+  - id: parse
+    name: read file
+    action: roadiehq:utils:fs:parse
+    input:
+      path: ./catalog-info.yaml
+      parser: yaml
+
+  - id: serialize
+    name: Serialize
+    action: roadiehq:utils:serialize:yaml
+    input:
+      data: ${{ steps['parse'].output.content }}
+
+  - id: log
+    name: Console.log
+    action: debug:log
+    input:
+      message: |
+        Content: `${{ steps['serialize'].output.serialized }}`
