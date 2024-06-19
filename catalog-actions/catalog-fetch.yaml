@@ -1,0 +1,42 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: fetch-component
+  title: Fetch an existing component in the Software Catalog
+  description: Fetches existing component
+  tags:
+    - catalog
+    - fetch
+spec:
+  owner: janus-authors
+  system: janus-idp
+  type: service
+
+  parameters:
+    - title: Catalog Entity Details
+      properties:
+        entityReference: 
+          title: Entity reference
+          type: string
+          description: Entity reference of the entity to get
+          ui:field: EntityPicker
+          ui:options:
+             allowArbitraryValues: true
+  
+  steps:
+    - id: fetch
+      name: Fetch catalog entity
+      action: catalog:fetch
+      input:
+        entityRef: ${{parameters.entityReference}}
+
+  output:
+    text:
+      - title: "EntityRef provided:"
+        content: ${{parameters.entityReference}}
+      - title: "Entity Requested:"
+        content: |
+          'Kind: ${{steps.fetch.output.entity.kind}}'
+          'Name: ${{steps.fetch.output.entity.metadata.name}}'
+          'Type:  ${{steps.fetch.output.entity.spec.type}}'
+
