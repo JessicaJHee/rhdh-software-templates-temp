@@ -1,0 +1,48 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: add-label-github
+  title: Adds labels to a pull request or issue
+  description: Adds labels to a pull request or issue on GitHub
+  tags:
+  - github
+
+spec:
+  type: service
+  parameters:
+    - title: Label information
+      required: ['repoUrl', 'number', 'labels']
+      properties:
+        repoUrl:
+          title: Repository URL
+          type: string
+          description: URL of the repository location
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        number:
+          title: Pull Request or issue number
+          type: number
+          description: The pull request or issue number to add labels to
+        labels:
+          title: Labels
+          type: array
+          items: 
+            type: string
+          description: The labels to add to the pull request or issue
+        token:
+          title: Authentication Token
+          type: string
+          ui:field: Secret
+          description: The GITHUB_TOKEN to use for authorization to GitHub
+
+  steps:
+    - id: addLabel
+      name: Adds labels to a pull request or issue on GitHub.
+      action: github:issues:label
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        number: ${{ parameters.number }}
+        labels: ${{ parameters.labels }}
+        token: ${{ secrets.token }}
