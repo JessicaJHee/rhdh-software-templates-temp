@@ -37,6 +37,7 @@ spec:
         token:
           title: Authentication Token
           type: string
+          ui:field: Secret
           description: The GITHUB_TOKEN to use for authorization to GitHub
 
   steps:
@@ -48,4 +49,4 @@ spec:
         keyPrefix: ${{ parameters.keyPrefix }}
         urlTemplate: ${{ parameters.urlTemplate }}
         isAlphanumeric: ${{ parameters.isAlphanumeric }}
-        token: ${{ parameters.token }}
+        token: ${{ secrets.token }}

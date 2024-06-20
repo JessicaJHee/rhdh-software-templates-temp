@@ -1,0 +1,2 @@
+# Create a Deploy key 
+This template uses the `github:deployKey:create` action which creates and stores deploy keys for a given repository. Outputs the GitHub action repo secret name for the private key.

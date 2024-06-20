@@ -1,0 +1,64 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: create-and-store-deploy-key
+  title: Create and store a Deploy Key
+  description: Create and store a Deploy Key
+  tags:
+  - github
+
+spec:
+  type: service
+  parameters:
+    - title: Key information
+      required: ['repoUrl', 'publicKey', 'privateKey', 'deployKeyName']
+      properties:
+        repoUrl:
+          title: Repository URL
+          type: string
+          description: URL of the repository location
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        publicKey:
+          title: Public Key
+          type: string
+          ui:field: Secret
+          description: Generated from ssh-keygen. Begins with 'ssh-rsa', 'ecdsa-sha2-nistp256', 'ecdsa-sha2-nistp384', 'ecdsa-sha2-nistp521', 'ssh-ed25519', 'sk-ecdsa-sha2-nistp256@openssh.com', or 'sk-ssh-ed25519@openssh.com'.
+        privateKey:
+          title: Private Key
+          type: string
+          ui:field: Secret
+          description: SSH Private Key generated from ssh-keygen
+        deployKeyName:
+          title: Deploy Key Name
+          type: string
+          description: Name of the Deploy Key
+        privateKeySecretName:
+          title: Private Key GitHub Secret Name
+          type: string
+          description: Name of the GitHub Secret to store the private key related to the Deploy Key. Defaults to 'KEY_NAME_PRIVATE_KEY' where 'KEY_NAME' is the name of the Deploy Key
+        token:
+          title: Authentication Token
+          type: string
+          ui:field: Secret
+          description: The GITHUB_TOKEN to use for authorization to GitHub
+
+  steps:
+    - id: createKey
+      name: Creates and stores Deploy Keys
+      action: github:deployKey:create
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        publicKey: ${{ secrets.publicKey }}
+        privateKey: ${{ secrets.privateKey }}
+        deployKeyName: ${{ parameters.deployKeyName }}
+        privateKeySecretName: ${{ parameters.privateKeySecretName }}
+        token: ${{ secrets.token }}
+
+  output:
+    text:
+      - title: Private Key Secret Name
+        content: |
+          ${{ steps['createKey'].output.privateKeySecretName }}
