@@ -1,0 +1,41 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: create-github-env
+  title: Create a GitHub deployment environment
+  description: Create a GitHub deployment environment
+  tags:
+  - github
+
+spec:
+  type: service
+  parameters:
+    - title: Label information
+      required: ['repoUrl']
+      properties:
+        repoUrl:
+          title: Repository URL
+          type: string
+          description: URL of the repository location
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        name:
+          title: Environment Name
+          type: string
+          description: Name of the deployment environment to create
+        token:
+          title: Authentication Token
+          type: string
+          ui:field: Secret
+          description: The GITHUB_TOKEN to use for authorization to GitHub
+
+  steps:
+    - id: createEnvironment
+      name: Create a GitHub deployment environment
+      action: github:environment:create
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        name: ${{ parameters.name }}
+        token: ${{ secrets.token }}

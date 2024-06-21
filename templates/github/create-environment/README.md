@@ -1,0 +1,2 @@
+# Create a GitHub Deployment Environment
+This template uses the `github:environment:create` action which creates a GitHub deployment environment. This template only contains the mandatory fields to use this action (`repoUrl` and `name`).
