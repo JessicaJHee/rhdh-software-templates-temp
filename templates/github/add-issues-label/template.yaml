@@ -2,8 +2,8 @@ apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
   name: add-label-github
-  title: Adds labels to a pull request or issue
-  description: Adds labels to a pull request or issue on GitHub
+  title: Add labels to a pull request or issue
+  description: Add labels to a pull request or issue on GitHub
   tags:
   - github
 
@@ -39,7 +39,7 @@ spec:
 
   steps:
     - id: addLabel
-      name: Adds labels to a pull request or issue on GitHub.
+      name: Add labels to a pull request or issue on GitHub.
       action: github:issues:label
       input:
         repoUrl: ${{ parameters.repoUrl }}

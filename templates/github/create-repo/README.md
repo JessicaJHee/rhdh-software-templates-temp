@@ -1,0 +1,2 @@
+# Create a GitHub Repository
+This template uses the `github:repo:create` action which creates a GitHub repository with the given repository and owner name. This template only contains the mandatory fields to use this action (`repoUrl`).
