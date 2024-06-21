@@ -1,9 +1,9 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: create-github-repo
-  title: Create a GitHub repository
-  description: Create a GitHub repository
+  name: push-github-repo
+  title: Push workspace contents to GitHub
+  description: Initializes a git repository of contents in workspace and publishes it to GitHub
   tags:
   - github
 
@@ -34,10 +34,25 @@ spec:
       input:
         repoUrl: ${{ parameters.repoUrl }}
         token: ${{ secrets.token }}
+    - id: fetchFile
+      name: fetch test file
+      action: fetch:plain:file
+      input:
+        url: https://github.com/redhat-developer/red-hat-developer-hub-software-templates/blob/main/README.md
+        targetPath: test-push
+    - id: pushRepo
+      name: Initialize and push workspace contents to GitHub
+      action: github:repo:push
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        token: ${{ secrets.token }}
 
   output:
     links:
       - title: URL to the repository with the provider
-        url: ${{ steps.createRepo.output.remoteUrl }}
+        url: ${{ steps.pushRepo.output.remoteUrl }}
       - title: URL to the root of the repository
-        url: ${{ steps.createRepo.output.repoContentsUrl }}
+        url: ${{ steps.pushRepo.output.repoContentsUrl }}
+    text:
+      - title: The git commit hash of the initial commit
+        content: ${{ steps.pushRepo.output.commitHash }}

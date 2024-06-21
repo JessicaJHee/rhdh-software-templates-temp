@@ -1,0 +1,2 @@
+# Publishes workspace content to GitHub
+This template uses the `publish:github` and `fetch:plain:file` actions which fetches a test file and publishes that to a new repository with the given name. This template only contains the mandatory fields to use both actions.

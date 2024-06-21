@@ -1,0 +1,2 @@
+# Pushes workspace content to GitHub
+This template uses the `github:repo:push` action pushes the contents of the GitHub workspace to the given repository. This template also uses the `github:repo:create` and `fetch:plain:file` actions and only contains the mandatory fields to use these actions.
