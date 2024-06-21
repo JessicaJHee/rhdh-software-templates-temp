@@ -1,0 +1,67 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: publish-github-pull-request
+  title: Publish pull request to GitHub
+  description: Publish pull request to GitHub
+  tags:
+  - github
+
+spec:
+  type: service
+  parameters:
+    - title: Label information
+      required: ['repoUrl', 'branchName', 'title', 'description']
+      properties:
+        repoUrl:
+          title: Repository URL
+          type: string
+          description: URL of the repository location
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        branchName:
+          title: Branch Name
+          type: string
+          description: The name for the branch
+        title:
+          title: Pull Request Name
+          type: string
+          description: The name for the pull request
+        description:
+          title: Pull Request Description
+          type: string
+          description: The description of the pull request
+        token:
+          title: Authentication Token
+          type: string
+          ui:field: Secret
+          description: The GITHUB_TOKEN to use for authorization to GitHub
+
+  steps:
+    - id: fetchFile
+      name: fetch test file
+      action: fetch:plain:file
+      input:
+        url: https://github.com/redhat-developer/red-hat-developer-hub-software-templates/blob/main/README.md
+        targetPath: test-pr
+    - id: publishPR
+      name: Publish pull request to GitHub
+      action: publish:github:pull-request
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        branchName: ${{ parameters.branchName }}
+        title: ${{ parameters.title }}
+        description: ${{ parameters.description }}
+        token: ${{ secrets.token }}
+
+  output:
+    links:
+      - title: Link to the pull request in Github
+        url: ${{ steps.publishPR.output.remoteUrl }}
+    text:
+      - title: Target branch name of the merge request
+        content: ${{ steps.publishPR.output.targetBranchName }}
+      - title: The pull request number
+        content: ${{ steps.publishPR.output.pullRequestNumber }}

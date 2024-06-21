@@ -1,0 +1,41 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: publish-github-pull-request
+  title: Publish pull request to GitHub
+  description: Publish pull request to GitHub
+  tags:
+  - github
+
+spec:
+  type: service
+  parameters:
+    - title: Label information
+      required: ['repoUrl', 'webhookUrl']
+      properties:
+        repoUrl:
+          title: Repository URL
+          type: string
+          description: URL of the repository location
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        webhookUrl:
+          title: Webhook URL
+          type: string
+          description: The URL to which the payloads will be delivered
+        token:
+          title: Authentication Token
+          type: string
+          ui:field: Secret
+          description: The GITHUB_TOKEN to use for authorization to GitHub
+
+  steps:
+    - id: createWebhook
+      name: Creates webhook for a repository on GitHub
+      action: github:webhook
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        webhookUrl: ${{ parameters.webhookUrl }}
+        token: ${{ secrets.token }}

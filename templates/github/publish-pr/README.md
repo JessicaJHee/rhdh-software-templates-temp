@@ -1,0 +1,2 @@
+# Publish Pull Request to GitHub
+This template uses the `publish:github:pull-request` action makes a pull request of the contents in the GitHub workspace to the given repository. This template also uses the `fetch:plain:file` action and only contains the mandatory fields to use these actions.
