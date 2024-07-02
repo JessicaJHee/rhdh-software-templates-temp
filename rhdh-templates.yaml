@@ -7,7 +7,7 @@ spec:
   type: url
   targets:
     - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/roadie-utils-actions/jsonata-json.yaml
-    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/roadie-utils-actions/jsonata-yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/roadie-utils-actions/jsonata-yaml.yaml
     - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/roadie-utils-actions/zip-file.yaml
     - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/roadie-utils-actions/read-file.yaml
     - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/nodejs-azure-app/template.yaml
