@@ -1,0 +1,28 @@
+apiVersion: backstage.io/v1alpha1
+kind: Location
+metadata:
+  name: rhdh-template-collection
+  description: A collection of templates for use with default actions in RHDH
+spec:
+  type: url
+  targets:
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/roadie-utils-actions/jsonata-json.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/roadie-utils-actions/jsonata-yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/roadie-utils-actions/zip-file.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/roadie-utils-actions/read-file.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/nodejs-azure-app/template.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/built-in-file-actions/delete-file.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/built-in-file-actions/rename-file.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/github/create-environment/template.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/github/push-repo/template.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/github/publish-pr/template.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/github/create-autolink-ref/template.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/github/add-issues-label/template.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/github/create-webhook/template.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/github/create-deploy-key/template.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/github/publish-repo/template.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/github/dispatch-github-action/template.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/github/create-repo/template.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/templates/log-and-wait/template.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/catalog-actions/catalog-write.yaml
+    - https://github.com/JessicaJHee/rhdh-software-templates-temp/blob/main/catalog-actions/catalog-fetch.yaml
