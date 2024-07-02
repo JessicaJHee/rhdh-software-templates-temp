@@ -1,9 +1,9 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
 metadata:
-  name: publish-github-pull-request
-  title: Publish pull request to GitHub
-  description: Publish pull request to GitHub
+  name: create-github-webhook
+  title: Creates webhook for a Github repository
+  description: PCreates webhook for a Github repository
   tags:
   - github
 
