@@ -1,0 +1,47 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: pages-enable
+  title: Enable GitHub Pages for a repository
+  description: Enables GitHub Pages for a repository
+  tags:
+  - github
+
+spec:
+  type: service
+  parameters:
+    - title: Label information
+      required: ['repoUrl', 'branchName']
+      properties:
+        repoUrl:
+          title: Repository URL
+          type: string
+          description: URL of the repository location
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        branchName:
+          title: Branch Name
+          type: string
+          description: The name for the branch
+        token:
+          title: Authentication Token
+          type: string
+          ui:field: Secret
+          description: The GITHUB_TOKEN to use for authorization to GitHub
+
+  steps:
+    - id: github-pages
+      name: Enable GitHub Pages
+      action: github:pages:enable
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        buildType: workflow
+        sourceBranch: ${{ parameters.branchName }}
+        token: ${{ secrets.token }}
+
+  output:
+    text:
+      - title: GitHub Pages has been enabled
+        content: Pages have been successfully configured for ${{ parameters.repoUrl }}
