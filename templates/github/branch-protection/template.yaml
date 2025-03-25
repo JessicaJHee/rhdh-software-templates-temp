@@ -1,0 +1,46 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: branch-protection
+  title: Configure Branch Protection in a Github Repository
+  description: Configures Branch Protection in a Github Repository
+  tags:
+  - github
+
+spec:
+  type: service
+  parameters:
+    - title: Label information
+      required: ['repoUrl']
+      properties:
+        repoUrl:
+          title: Repository URL
+          type: string
+          description: URL of the repository location
+          ui:field: RepoUrlPicker
+          ui:options:
+            allowedHosts:
+              - github.com
+        branchName:
+          title: Branch Name
+          type: string
+          description: The name for the branch
+        token:
+          title: Authentication Token
+          type: string
+          ui:field: Secret
+          description: The GITHUB_TOKEN to use for authorization to GitHub
+
+  steps:
+    - id: github-pages
+      name: Configure Branch Protection
+      action: github:branch-protection:create
+      input:
+        repoUrl: ${{ parameters.repoUrl }}
+        branch: ${{ parameters.branchName }}
+        token: ${{ secrets.token }}
+
+  output:
+    text:
+      - title: GitHub Branch Protection has been configured
+        content: GitHub Branch Protection has been successfully configured for ${{ parameters.repoUrl }}
